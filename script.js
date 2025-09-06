@@ -21,10 +21,10 @@ const messageBox = document.getElementById('message-box');
 const messageText = document.getElementById('message-text');
 const messageCloseBtn = document.getElementById('message-close-btn');
 const leaderboardBtn = document.getElementById('leaderboard-btn');
-const viewLeaderboardBtn2 = document.getElementById('save-score-section');
+const viewLeaderboardBtn2 = document.getElementById('view-leaderboard-btn-2');
 const saveScoreBtn = document.getElementById('save-score-btn');
-const playerNameInput = document.getElementById('name-input');
-const leaderboardList = document.getElementById('leaderboard-content');
+const playerNameInput = document.getElementById('player-name');
+const leaderboardList = document.getElementById('leaderboard-list');
 const backToMenuBtn = document.getElementById('back-to-menu-btn');
 
 
@@ -227,8 +227,7 @@ const quizData = {
 // --- Event Listeners ---
 document.querySelectorAll('.category-button').forEach(button => {
     button.addEventListener('click', () => {
-        const category = button.dataset.category;
-        startGame(category);
+        startGame(button.dataset.category);
     });
 });
 
@@ -251,6 +250,7 @@ function showMessage(text) {
 
 function startGame(category) {
     // Get the questions for the selected category
+    currentCategory = category;
     currentCategoryQuestions = quizData[category];
     if (!currentCategoryQuestions || currentCategoryQuestions.length === 0) {
         showMessage("No questions found for this category. Please select another.");
