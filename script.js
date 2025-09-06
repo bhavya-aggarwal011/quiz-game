@@ -1,5 +1,6 @@
 // Game state variables
 let currentCategoryQuestions = [];
+let currentDifficulty= '';
 let currentQuestionIndex = 0;
 let score = 0;
 let currentCategory= '';
@@ -339,13 +340,13 @@ function saveScore() {
         date: new Date().toLocaleDateString(),
     };
 
-    leaderboard[currentCategory].push(newScore);
+    leaderboard[currentCategoryKey].push(newScore);
 
     // Sort scores in descending order
-    leaderboard[currentCategory].sort((a, b) => b.score - a.score);
+    leaderboard[currentCategoryKey].sort((a, b) => b.score - a.score);
 
     // Keep only the top 10 scores per category
-    leaderboard[currentCategory] = leaderboard[currentCategory].slice(0, 10);
+    leaderboard[currentCategoryKey] = leaderboard[currentCategory].slice(0, 10);
 
     localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
 
