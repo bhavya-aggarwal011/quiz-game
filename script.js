@@ -2,8 +2,10 @@
 let currentCategoryQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
+let currentCategory= '';
 
 // UI element references
+//const mainMenu= document.getElementById('main-menu');
 const categoryScreen = document.getElementById('category-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
