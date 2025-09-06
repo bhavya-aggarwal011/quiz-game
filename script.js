@@ -3,9 +3,10 @@ let currentCategoryQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let currentCategory= '';
-
+let timerId;
+let timeRemaining = 15;
 // UI element references
-const categoryScreen = document.getElementById('category-screen');
+const mainMenu = document.getElementById('main-menu');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
 const leaderboardScreen = document.getElementById('leaderboard-screen');
@@ -14,16 +15,19 @@ const answerButtonsContainer = document.getElementById('answer-buttons');
 const scoreDisplay = document.getElementById('score-display');
 const questionCountDisplay = document.getElementById('question-count-display');
 const finalScoreDisplay = document.getElementById('final-score');
-const saveScoreSection = document.getElementById('save-score-section');
-const nameInput = document.getElementById('name-input');
-const saveScoreBtn = document.getElementById('save-score-btn');
 const playAgainBtn = document.getElementById('play-again-btn');
-const leaderboardBtn = document.getElementById('leaderboard-btn');
-const backToMenuBtn = document.getElementById('back-to-menu-btn');
-const leaderboardContent = document.getElementById('leaderboard-content');
+const timerDisplay = document.getElementById('timer-display');
 const messageBox = document.getElementById('message-box');
 const messageText = document.getElementById('message-text');
 const messageCloseBtn = document.getElementById('message-close-btn');
+const leaderboardBtn = document.getElementById('leaderboard-btn');
+const viewLeaderboardBtn2 = document.getElementById('save-score-section');
+const saveScoreBtn = document.getElementById('save-score-btn');
+const playerNameInput = document.getElementById('name-input');
+const leaderboardList = document.getElementById('leaderboard-content');
+const backToMenuBtn = document.getElementById('back-to-menu-btn');
+
+
 
 // --- Quiz Data ---
 // You can add more questions and categories here.
@@ -233,6 +237,12 @@ messageCloseBtn.addEventListener('click', () => {
     messageBox.classList.add('hidden');
 });
 
+// New Event Listeners for Leaderboard
+leaderboardBtn.addEventListener('click', showLeaderboard);
+viewLeaderboardBtn2.addEventListener('click', showLeaderboard);
+saveScoreBtn.addEventListener('click', saveScore);
+backToMenuBtn.addEventListener('click', showMainMenu);
+
 // --- Game Functions ---
 function showMessage(text) {
     messageText.textContent = text;
@@ -255,7 +265,7 @@ function startGame(category) {
     score = 0;
     
     // Update UI
-    categoryScreen.classList.add('hidden');
+    mainMenu.classList.add('hidden');
     quizScreen.classList.remove('hidden');
     
     updateScore();
@@ -285,24 +295,55 @@ function showQuestion() {
         button.addEventListener('click', () => checkAnswer(button, question.correct));
         answerButtonsContainer.appendChild(button);
     });
+    startTimer();
 }
+function startTimer() {
+    // Clear any existing timer
+    clearInterval(timerId);
+    timeRemaining = 15;
+    timerDisplay.textContent = `Time: ${timeRemaining}`;
+    timerDisplay.classList.remove('timer-low');
 
+    timerId = setInterval(() => {
+        timeRemaining--;
+        timerDisplay.textContent = `Time: ${timeRemaining}`;
+
+        if (timeRemaining <= 5) {
+            timerDisplay.classList.add('timer-low');
+        }
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerId);
+            checkAnswer(null, currentCategoryQuestions[currentQuestionIndex].correct);
+        }
+    }, 1000);
+}
 function checkAnswer(selectedButton, correctAnswer) {
-    const isCorrect = selectedButton.textContent === correctAnswer;
-    
-    if (isCorrect) {
-        score++;
-        selectedButton.classList.add('correct');
+    clearInterval(timerId);
+
+    if (selectedButton) {
+        const isCorrect = selectedButton.textContent === correctAnswer;
+        
+        if (isCorrect) {
+            score++;
+            selectedButton.classList.add('correct');
+        } else {
+            selectedButton.classList.add('wrong');
+            Array.from(answerButtonsContainer.children).forEach(button => {
+                if (button.textContent === correctAnswer) {
+                    button.classList.add('correct');
+                }
+            });
+        }
     } else {
-        selectedButton.classList.add('wrong');
-        // Find and highlight the correct answer
+        // This is the "time's up" scenario
+        showMessage("Time's up!");
         Array.from(answerButtonsContainer.children).forEach(button => {
             if (button.textContent === correctAnswer) {
                 button.classList.add('correct');
             }
         });
     }
-    
     // Disable all buttons after an answer is selected
     Array.from(answerButtonsContainer.children).forEach(button => {
         button.disabled = true;
@@ -327,16 +368,106 @@ function updateScore() {
 }
 
 function showResults() {
+    clearInterval(timerId);
     quizScreen.classList.add('hidden');
     resultScreen.classList.remove('hidden');
     finalScoreDisplay.textContent = `You scored ${score} out of ${currentCategoryQuestions.length}!`;
+    playerNameInput.value = '';
 }
 
 function resetGame() {
     resultScreen.classList.add('hidden');
-    categoryScreen.classList.remove('hidden');
+    showMainMenu();
+}
+function showMainMenu() {
+    leaderboardScreen.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
 }
 
+// --- Leaderboard Functions ---
+
+function getLeaderboard() {
+    const scores = localStorage.getItem('quizLeaderboard');
+    return scores ? JSON.parse(scores) : {};
+}
+
+function saveScore() {
+    const playerName = playerNameInput.value.trim();
+    if (playerName === '') {
+        showMessage('Please enter your name to save your score.');
+        return;
+    }
+
+    const leaderboard = getLeaderboard();
+    if (!leaderboard[currentCategory]) {
+        leaderboard[currentCategory] = [];
+    }
+
+    const newScore = {
+        name: playerName,
+        score: score,
+        total: currentCategoryQuestions.length,
+        date: new Date().toLocaleDateString(),
+    };
+
+    leaderboard[currentCategory].push(newScore);
+
+    // Sort scores in descending order
+    leaderboard[currentCategory].sort((a, b) => b.score - a.score);
+
+    // Keep only the top 10 scores per category
+    leaderboard[currentCategory] = leaderboard[currentCategory].slice(0, 10);
+
+    localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
+
+    showMessage('Score saved successfully!');
+    document.getElementById('save-score-section').classList.add('hidden');
+}
+
+function showLeaderboard() {
+    mainMenu.classList.add('hidden');
+    resultScreen.classList.add('hidden');
+    quizScreen.classList.add('hidden');
+    leaderboardScreen.classList.remove('hidden');
+    
+    leaderboardList.innerHTML = '';
+    const leaderboard = getLeaderboard();
+    const categories = Object.keys(leaderboard);
+
+    if (categories.length === 0) {
+        leaderboardList.innerHTML = '<p class="text-center text-gray-400">No scores saved yet. Play a quiz to add your score!</p>';
+        return;
+    }
+
+    categories.forEach(category => {
+        const categoryHeader = document.createElement('h3');
+        categoryHeader.textContent = `${category.toUpperCase()} Leaderboard`;
+        categoryHeader.classList.add('text-xl', 'font-bold', 'text-yellow-300', 'mt-4');
+        leaderboardList.appendChild(categoryHeader);
+
+        const scoresForCategory = leaderboard[category];
+        if (scoresForCategory.length > 0) {
+            const ol = document.createElement('ol');
+            ol.classList.add('list-decimal', 'list-inside', 'text-left', 'space-y-2');
+            scoresForCategory.forEach(entry => {
+                const li = document.createElement('li');
+                li.classList.add('leaderboard-item');
+                li.innerHTML = `
+                    <span>${entry.name}</span>
+                    <span class="font-bold">${entry.score}/${entry.total}</span>
+                    <span class="text-sm text-gray-400">${entry.date}</span>
+                `;
+                ol.appendChild(li);
+            });
+            leaderboardList.appendChild(ol);
+        } else {
+            const p = document.createElement('p');
+            p.textContent = 'No scores for this category yet.';
+            p.classList.add('text-center', 'text-gray-400');
+            leaderboardList.appendChild(p);
+        }
+    });
+}
 // Utility function to shuffle an array
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
