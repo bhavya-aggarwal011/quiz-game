@@ -373,6 +373,7 @@ function showResults() {
     resultScreen.classList.remove('hidden');
     finalScoreDisplay.textContent = `You scored ${score} out of ${currentCategoryQuestions.length}!`;
     playerNameInput.value = '';
+    document.getElementById('save-score-section').classList.remove('hidden');
 }
 
 function resetGame() {
