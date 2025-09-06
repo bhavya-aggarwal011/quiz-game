@@ -6,6 +6,7 @@ let score = 0;
 let currentCategory= '';
 let timerId;
 let timeRemaining = 15;
+let leaderboard= {};
 // UI element references
 const mainMenu = document.getElementById('main-menu');
 const difficultyMenu = document.getElementById('difficulty-menu');
@@ -130,250 +131,168 @@ const quizData = {
     }
 };
 // --- Event Listeners ---
-document.querySelectorAll('.category-button').forEach(button => {
-    button.addEventListener('click', () => {
-        showDifficultMenu(button.dataset.category);
-    });
-});
-document.querySelectorAll('.difficulty-button').forEach(button => {
-    button.addEventListener('click', () => {
-        startQuiz(button.dataset.difficulty);
-    });
-});
-playAgainBtn.addEventListener('click', resetGame);
-messageCloseBtn.addEventListener('click', () => {
-    messageBox.classList.add('hidden');
-});
-
-// New Event Listeners for Leaderboard
-leaderboardBtn.addEventListener('click', showLeaderboard);
-viewLeaderboardBtn2.addEventListener('click', showLeaderboard);
-saveScoreBtn.addEventListener('click', saveScore);
-backToMenuBtn.addEventListener('click', showMainMenu);
-backToCategoriesBtn.addEventListener('click', showMainMenu);
 // --- Game Functions ---
-function showMessage(text) {
-    messageText.textContent = text;
-    messageBox.classList.remove('hidden');
-}
-function showDifficultyMenu(category) {
-    currentCategory = category;
-    mainMenu.classList.add('hidden');
-    difficultyMenu.classList.remove('hidden');
-}
-function startQuiz(difficulty) {
-    currentDifficulty = difficulty;
-    currentCategoryQuestions = quizData[currentCategory][currentDifficulty];
+// Check and load leaderboard data from localStorage on start
+document.addEventListener('DOMContentLoaded', () => {
+    loadLeaderboard();
+});
 
-    if (!currentCategoryQuestions || currentCategoryQuestions.length === 0) {
-        showMessage("No questions found for this difficulty. Please select another.");
-        return;
-    }
-    
-    currentCategoryQuestions = shuffleArray(currentCategoryQuestions);
-    
+// Function to start the quiz for a selected category
+function startQuiz(category) {
+    currentCategory = category;
     currentQuestionIndex = 0;
     score = 0;
-    
-    difficultyMenu.classList.add('hidden');
-    quizScreen.classList.remove('hidden');
-    
-    updateScore();
+    currentCategoryQuestions = quizData[currentCategory][currentDifficulty];
+    shuffleArray(currentCategoryQuestions);
+    showScreen(quizScreen);
     showQuestion();
-}
-
-function showQuestion() {
-    // Hide the result screen if it's visible
-    resultScreen.classList.add('hidden');
-    
-    // Get the current question
-    const question = currentCategoryQuestions[currentQuestionIndex];
-    
-    // Update the question text and count
-    questionText.textContent = question.question;
-    questionCountDisplay.textContent = `Question ${currentQuestionIndex + 1}/${currentCategoryQuestions.length}`;
-    
-    // Clear previous answer buttons
-    answerButtonsContainer.innerHTML = '';
-    
-    // Create and display answer buttons
-    const shuffledAnswers = shuffleArray(question.answers);
-    shuffledAnswers.forEach(answer => {
-        const button = document.createElement('button');
-        button.textContent = answer;
-        button.classList.add('answer-button', 'bg-gray-700', 'hover:bg-gray-600', 'text-white', 'font-bold', 'py-3', 'px-6', 'rounded-xl', 'w-full');
-        button.addEventListener('click', () => checkAnswer(button, question.correct));
-        answerButtonsContainer.appendChild(button);
-    });
     startTimer();
 }
-function startTimer() {
-    clearInterval(timerId);
-    
-    switch (currentDifficulty) {
-        case 'easy':
-            timeRemaining = 20;
-            break;
-        case 'medium':
-            timeRemaining = 15;
-            break;
-        case 'hard':
-            timeRemaining = 10;
-            break;
-        default:
-            timeRemaining = 15;
-    }
-    timerDisplay.textContent = `Time: ${timeRemaining}`;
-    timerDisplay.classList.remove('timer-low');
 
-    timerId = setInterval(() => {
-        timeRemaining--;
-        timerDisplay.textContent = `Time: ${timeRemaining}`;
-
-        if (timeRemaining <= 5) {
-            timerDisplay.classList.add('timer-low');
+// Function to display the current question and answer options
+function showQuestion() {
+    resetState();
+    const currentQuestion = currentCategoryQuestions[currentQuestionIndex];
+    questionText.textContent = currentQuestion.question;
+    questionCountDisplay.textContent = `${currentQuestionIndex + 1} of ${currentCategoryQuestions.length}`;
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.textContent = answer;
+        button.classList.add('answer-button', 'bg-gray-700', 'hover:bg-gray-600', 'text-white', 'font-bold', 'py-3', 'px-6', 'rounded-xl', 'text-lg', 'text-center', 'w-full', 'md:w-auto', 'transition-all', 'duration-200');
+        if (answer === currentQuestion.correct) {
+            button.dataset.correct = true;
         }
-
-        if (timeRemaining <= 0) {
-            clearInterval(timerId);
-            checkAnswer(null, currentCategoryQuestions[currentQuestionIndex].correct);
-        }
-    }, 1000);
+        button.addEventListener('click', selectAnswer);
+        answerButtonsContainer.appendChild(button);
+    });
 }
-function checkAnswer(selectedButton, correctAnswer) {
-    clearInterval(timerId);
 
-    if (selectedButton) {
-        const isCorrect = selectedButton.textContent === correctAnswer;
-        
-        if (isCorrect) {
-            score++;
-            selectedButton.classList.add('correct', 'corect-flash'); 
-            updateScore(true);
-        } else {
-            selectedButton.classList.add('wrong', 'wrong-flash');
-            Array.from(answerButtonsContainer.children).forEach(button => {
-                if (button.textContent === correctAnswer) {
-                    button.classList.add('correct', 'correct-flash');
-                }
-            });
-        }
-    } else {
-        // This is the "time's up" scenario
-        showMessage("Time's up!");
-        Array.from(answerButtonsContainer.children).forEach(button => {
-            if (button.textContent === correctAnswer) {
-                button.classList.add('correct','correct-flash');
-            }
-        });
+// Function to reset the answer buttons and feedback
+function resetState() {
+    clearInterval(timerId); // Clear the timer when resetting
+    timerDisplay.textContent = '';
+    while (answerButtonsContainer.firstChild) {
+        answerButtonsContainer.removeChild(answerButtonsContainer.firstChild);
     }
-    // Disable all buttons after an answer is selected
+    questionText.classList.remove('correct-flash', 'wrong-flash');
+}
+
+// Function to handle user's answer selection
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    if (correct) {
+        score++;
+        showFlash(questionText, 'correct');
+    } else {
+        showFlash(questionText, 'wrong');
+    }
     Array.from(answerButtonsContainer.children).forEach(button => {
+        if (button.dataset.correct) {
+            button.classList.add('correct');
+        }
         button.disabled = true;
     });
-    
-    // Wait a moment before moving to the next question or showing results
+    scoreDisplay.textContent = `Score: ${score}`;
     setTimeout(() => {
         currentQuestionIndex++;
         if (currentQuestionIndex < currentCategoryQuestions.length) {
             showQuestion();
+            startTimer();
         } else {
-            showResults();
+            showResultScreen();
         }
-    }, 1500); // 1-second delay
+    }, 1500);
 }
 
-function updateScore(animate=false) {
-    scoreDisplay.textContent = `Score: ${score}`;
-    if (animate) {
-        scoreDisplay.classList.add('score-flash');
-        setTimeout(() => {
-            scoreDisplay.classList.remove('score-flash');
-        }, 500);
-    }
-}
-
-function showResults() {
-    clearInterval(timerId);
-    quizScreen.classList.add('hidden');
-    resultScreen.classList.remove('hidden');
+// Function to show the final result screen
+function showResultScreen() {
+    showScreen(resultScreen);
     finalScoreDisplay.textContent = `You scored ${score} out of ${currentCategoryQuestions.length}!`;
-    playerNameInput.value = '';
-    document.getElementById('save-score-section').classList.remove('hidden');
 }
 
-function resetGame() {
-    resultScreen.classList.add('hidden');
-    showMainMenu();
-}
-function showMainMenu() {
-    leaderboardScreen.classList.add('hidden');
+// Function to show a specific screen and hide others
+function showScreen(screenToShow) {
+    mainMenu.classList.add('hidden');
     difficultyMenu.classList.add('hidden');
-    mainMenu.classList.remove('hidden');
+    quizScreen.classList.add('hidden');
+    resultScreen.classList.add('hidden');
+    leaderboardScreen.classList.add('hidden');
+    screenToShow.classList.remove('hidden');
 }
 
-// --- Leaderboard Functions ---
-
-function getLeaderboard() {
-    const scores = localStorage.getItem('quizLeaderboard');
-    return scores ? JSON.parse(scores) : {};
+// Function to handle category button clicks
+function handleCategoryClick(e) {
+    currentCategory = e.target.dataset.category;
+    showScreen(difficultyMenu);
 }
 
+// Function to handle difficulty button clicks
+function handleDifficultyClick(e) {
+    currentDifficulty = e.target.dataset.difficulty;
+    startQuiz(currentCategory);
+}
+
+// Function to go back to the main menu
+function backToMainMenu() {
+    showScreen(mainMenu);
+}
+
+// Function to show the leaderboard screen
+function showLeaderboard() {
+    showScreen(leaderboardScreen);
+    renderLeaderboard();
+}
+
+// Function to handle saving the score
 function saveScore() {
     const playerName = playerNameInput.value.trim();
-    if (playerName === '') {
+    if (playerName) {
+        const categoryKey = `${currentCategory}-${currentDifficulty}`;
+        const newScore = {
+            name: playerName,
+            score: score,
+            total: currentCategoryQuestions.length,
+            date: new Date().toLocaleDateString()
+        };
+        // Initialize the category array if it doesn't exist
+        if (!leaderboard[categoryKey]) {
+            leaderboard[categoryKey] = [];
+        }
+        // Add new score and sort
+        leaderboard[categoryKey].push(newScore);
+        leaderboard[categoryKey].sort((a, b) => b.score - a.score);
+        // Keep only top 10 scores
+        leaderboard[categoryKey] = leaderboard[categoryKey].slice(0, 10);
+        saveLeaderboard();
+        showMessage(`Score saved for ${playerName}!`);
+    } else {
         showMessage('Please enter your name to save your score.');
-        return;
     }
-
-    const leaderboard = getLeaderboard();
-    const categoryKey = `${currentCategory}_${currentDifficulty}`;
-    if (!leaderboard[currentCategory]) {
-        leaderboard[currentCategory] = [];
-    }
-
-    const newScore = {
-        name: playerName,
-        score: score,
-        total: currentCategoryQuestions.length,
-        difficulty: currentDifficulty,
-        date: new Date().toLocaleDateString(),
-    };
-
-    leaderboard[currentCategoryKey].push(newScore);
-
-    // Sort scores in descending order
-    leaderboard[currentCategoryKey].sort((a, b) => b.score - a.score);
-
-    // Keep only the top 10 scores per category
-    leaderboard[currentCategoryKey] = leaderboard[currentCategory].slice(0, 10);
-
-    localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
-
-    showMessage('Score saved successfully!');
-    document.getElementById('save-score-section').classList.add('hidden');
 }
 
-function showLeaderboard() {
-    mainMenu.classList.add('hidden');
-    resultScreen.classList.add('hidden');
-    quizScreen.classList.add('hidden');
-    difficultyMenu.classList.add('hidden');
-    leaderboardScreen.classList.remove('hidden');
-    
-    leaderboardList.innerHTML = '';
-    const leaderboard = getLeaderboard();
-    const categories = Object.keys(leaderboard);
+// Function to save the leaderboard data to localStorage
+function saveLeaderboard() {
+    localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
+}
 
-    if (categories.length === 0) {
-        leaderboardList.innerHTML = '<p class="text-center text-gray-400">No scores saved yet. Play a quiz to add your score!</p>';
-        return;
+// FIX: Added this function to load the leaderboard data
+function loadLeaderboard() {
+    const savedLeaderboard = localStorage.getItem('quizLeaderboard');
+    if (savedLeaderboard) {
+        leaderboard = JSON.parse(savedLeaderboard);
     }
+}
 
-   categories.sort().forEach(categoryKey => {
-        const [category, difficulty] = categoryKey.split('_');
+
+// Function to render the leaderboard on the screen
+function renderLeaderboard() {
+    leaderboardList.innerHTML = '';
+    // Show scores for all categories
+    Object.keys(leaderboard).forEach(categoryKey => {
+        const [category, difficulty] = categoryKey.split('-');
         const categoryHeader = document.createElement('h3');
-        categoryHeader.textContent = `${category.toUpperCase()} - ${difficulty.toUpperCase()} Leaderboard`;
+        categoryHeader.textContent = `${category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} - ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase()} Leaderboard`;
         categoryHeader.classList.add('text-xl', 'font-bold', 'text-yellow-300', 'mt-4');
         leaderboardList.appendChild(categoryHeader);
 
@@ -400,11 +319,88 @@ function showLeaderboard() {
         }
     });
 }
+
 // Utility function to shuffle an array
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    return array;
+}
+
+// Function to start the timer
+function startTimer() {
+    timeRemaining = 15;
+    timerDisplay.textContent = `Time: ${timeRemaining}s`;
+    clearInterval(timerId); // Clear any existing timer
+    timerId = setInterval(() => {
+        timeRemaining--;
+        timerDisplay.textContent = `Time: ${timeRemaining}s`;
+        if (timeRemaining <= 5) {
+            timerDisplay.classList.add('text-red-500');
+        } else {
+            timerDisplay.classList.remove('text-red-500');
+        }
+        if (timeRemaining <= 0) {
+            clearInterval(timerId);
+            handleTimeout();
+        }
+    }, 1000);
+}
+
+// Function to handle timer running out
+function handleTimeout() {
+    Array.from(answerButtonsContainer.children).forEach(button => {
+        button.disabled = true;
+        if (button.dataset.correct) {
+            button.classList.add('correct');
+        }
+    });
+    showMessage('Time\'s up!');
+    setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentCategoryQuestions.length) {
+            showQuestion();
+            startTimer();
+        } else {
+            showResultScreen();
+        }
+    }, 1500);
+}
+
+// Function to show a temporary message box
+function showMessage(msg) {
+    messageText.textContent = msg;
+    messageBox.classList.remove('hidden');
+}
+
+// Event listeners
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.category-button')) {
+        handleCategoryClick(e);
+    } else if (e.target.matches('.difficulty-button')) {
+        handleDifficultyClick(e);
+    }
+});
+
+playAgainBtn.addEventListener('click', () => {
+    backToMainMenu();
+});
+
+viewLeaderboardBtn2.addEventListener('click', showLeaderboard);
+backToMenuBtn.addEventListener('click', backToMainMenu);
+backToCategoriesBtn.addEventListener('click', backToMainMenu);
+
+messageCloseBtn.addEventListener('click', () => {
+    messageBox.classList.add('hidden');
+});
+
+saveScoreBtn.addEventListener('click', saveScore);
+leaderboardBtn.addEventListener('click', showLeaderboard);
+
+function showFlash(element, type) {
+    element.classList.add(type === 'correct' ? 'correct-flash' : 'wrong-flash');
+    setTimeout(() => {
+        element.classList.remove(type === 'correct' ? 'correct-flash' : 'wrong-flash');
+    }, 500);
 }
