@@ -110,7 +110,7 @@ const quizData = {
             { question: "What is the highest mountain in the world?", answers: ["Mount Kilimanjaro", "Mount Everest", "Mount Denali", "K2"], correct: "Mount Everest" },
             { question: "Which Indian state has the longest coastline?", answers:["Kerela", "Gujarat","Goa", "Tamil Nadu"], correct: "Gujarat"},
             { question: "In which country is the Brahmaputra River known as the Jamuna?", answers: ["India", "China","Nepal", "Bangladesh"], correct:"Bangladesh"},
-            { question: " Which type of rock is known as a primary rock and is formed from molten material?", answers:["Sedimentary rock", "Metamorphic rock", "Igneous rock", "Fossil rock"}
+            { question: " Which type of rock is known as a primary rock and is formed from molten material?", answers:["Sedimentary rock", "Metamorphic rock", "Igneous rock", "Fossil rock"],correct:"Igneous rock"}
         ],
         hard: [
             { question: "Which country is known as the Land of the Rising Sun?", answers: ["China", "Thailand", "Japan", "South Korea"], correct: "Japan" },
