@@ -374,6 +374,7 @@ function startTimer() {
 function handleTimeout() {
     Array.from(answerButtonsContainer.children).forEach(button => {
         button.disabled = true;
+        // The missing line: check for the correct answer and add the 'correct' class
         if (button.dataset.correct) {
             button.classList.add('correct');
         }
