@@ -9,12 +9,12 @@ body {
     width: 700px;
 }
 
-.category-button, .answer-button, #play-again-btn, #leaderboard-btn, #save-score-btn, #back-to-menu-btn {
+.category-button, .answer-button, #play-again-btn, #leaderboard-btn, #save-score-btn, #back-to-menu-btn, .difficulty-button, #back-to-categories-btn {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.category-button:hover, .answer-buttons:hover, #play-again-btn:hover, #leaderboard-btn:hover, #save-score-btn:hover, #back-to-menu-btn:hover {
+.category-button:hover, .answer-buttons:hover, #play-again-btn:hover, #leaderboard-btn:hover, #save-score-btn:hover, #back-to-menu-btn:hover, .difficulty-button:hover, #back-to-categories-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.2), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -28,7 +28,24 @@ body {
     background-color: #ef4444 !important;
     box-shadow: 0 0 10px #ef4444;
 }
+.correct-flash {
+    animation: correct-flash 0.5s ease-in-out;
+}
 
+.wrong-flash {
+    animation: wrong-flash 0.5s ease-in-out;
+}
+@keyframes correct-flash {
+    0% { transform: scale(1); background-color: #10b981; }
+    50% { transform: scale(1.05); background-color: #0c9e6c; }
+    100% { transform: scale(1); background-color: #10b981; }
+}
+
+@keyframes wrong-flash {
+    0% { transform: scale(1); background-color: #ef4444; }
+    50% { transform: scale(1.05); background-color: #d63838; }
+    100% { transform: scale(1); background-color: #ef4444; }
+}
 #message-box {
     top: 50%;
     left: 50%;
@@ -60,4 +77,13 @@ body {
 
 .leaderboard-item:nth-child(odd) {
     background-color: #4b5563;
+}
+.score-flash {
+    animation: score-flash 0.5s ease-in-out;
+}
+
+@keyframes score-flash {
+    0% { transform: scale(1); color: #e2e8f0; }
+    50% { transform: scale(1.1); color: #facc15; }
+    100% { transform: scale(1); color: #e2e8f0; }
 }
