@@ -14,7 +14,7 @@ body {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.category-button:hover, .answer-button:hover, #play-again-btn:hover, #leaderboard-btn:hover, #save-score-btn:hover, #back-to-menu-btn:hover {
+.category-button:hover, .answer-buttons:hover, #play-again-btn:hover, #leaderboard-btn:hover, #save-score-btn:hover, #back-to-menu-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.2), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
