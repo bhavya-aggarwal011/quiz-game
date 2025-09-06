@@ -31,9 +31,9 @@ const messageCloseBtn = document.getElementById('message-close-btn');
 const quizData = {
     science: [
         {
-            question: "What is the largest planet in our solar system?",
-            answers: ["Jupiter", "Saturn", "Neptune", "Earth"],
-            correct: "Jupiter"
+            question: "What is the process of water turning into vapour called?",
+            answers: ["Condensation", "Evaporation", "Boiling", "Melting"],
+            correct: "Evaporation"
         },
         {
             question: "What is the chemical symbol for Gold?",
@@ -46,9 +46,9 @@ const quizData = {
             correct: "300,000 km/s"
         },
         {
-            question: "Which element has the atomic number 1?",
-            answers: ["Helium", "Oxygen", "Hydrogen", "Carbon"],
-            correct: "Hydrogen"
+            question: "Where would you find humerus bone in human body?",
+            answers: ["Knee", "Shoulder", "Hand", "Arm"],
+            correct: "Arm"
         },
         {
             question: "What is the study of celestial objects and phenomena called?",
@@ -61,14 +61,24 @@ const quizData = {
             correct: "Boron"
         },
         {
-            question: "What is the scientific term for the process of plants making their own food?",
-            answers: ["Photosynthesis", "Breathing", "Oxidation", ""],
-            correct: "Photosynthesis"
+            question: "Which planet is known as Red Planet?",
+            answers: ["Mars", "Neptune", "Mercury", "Jupiter"],
+            correct: "Mars"
         },
         {
             question: "Which is the largest organ in human body?",
             answers: ["Tongue", "Liver", "Skin", "Heart"],
             correct: "Skin"
+        },
+        {
+            question: "What gas do humans need to breath to survive?",
+            answers: ["Boron", "Nitrogen", "Ozone", "Oxygen"],
+            correct: "Oxygen"
+        },
+        {
+            question: "What is the smallest unit of life?",
+            answers: ["Atom", "Molecule", "Cell", "Organelle"],
+            correct: "Cell"
         }
     ],
     movies: [
@@ -96,7 +106,9 @@ const quizData = {
             question: "The movie 'Forrest Gump' is set in which country?",
             answers: ["United Kingdom", "United States", "France", "Germany"],
             correct: "United States"
-        }
+        },
+        {
+            
     ],
     math: [
         {
