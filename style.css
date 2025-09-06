@@ -35,3 +35,18 @@ body {
     transform: translate(-50%, -50%);
     z-index: 1000;
 }
+#timer-display {
+    color: #4a5568;
+    font-size: 1.25rem;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.timer-low {
+    color: #ef4444 !important;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.5; }
+}
