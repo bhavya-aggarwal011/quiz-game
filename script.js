@@ -73,7 +73,7 @@ const quizData = {
     },
     math: {
         easy: [
-            { question: "What is the value of pi ($$\\pi$$) to two decimal places?", answers: ["3.12", "3.14", "3.16", "3.18"], correct: "3.14" },
+            { question: "What is the value of pi to two decimal places?", answers: ["3.12", "3.14", "3.16", "3.18"], correct: "3.14" },
             { question: "What is the square root of 81?", answers: ["8", "9", "10", "7"], correct: "9" }
         ],
         medium: [
