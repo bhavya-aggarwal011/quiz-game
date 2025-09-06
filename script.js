@@ -110,8 +110,8 @@ const quizData = {
             question: "The movie 'Forrest Gump' is set in which country?",
             answers: ["United Kingdom", "United States", "France", "Germany"],
             correct: "United States"
-        },
-        {
+        }
+        
             
     ],
     math: [
