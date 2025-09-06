@@ -41,19 +41,19 @@ const quizData = {
             { question: "What is the process of water turning into vapour called?", answers: ["Condensation", "Evaporation", "Boiling", "Melting"], correct: "Evaporation" },
             { question: "What is the chemical symbol for Gold?", answers: ["Go", "Au", "Ag", "Gd"], correct: "Au" },
             { question: "Which planet is known as Red Planet?", answers: ["Mars", "Neptune", "Mercury", "Jupiter"], correct: "Mars" },
-            { question: "What gas do humans need to breath to survive?", answers: ["Boron", "Nitrogen", "Ozone", "Oxygen"], correct: "Oxygen" },
+            { question: "What gas do plants absorb from the air for photosynthesis?", answers: ["Carbon Dioxide", "Nitrogen", "Ozone", "Oxygen"], correct: "Carbon Dioxide" },
             { question: "What is the smallest unit of life?", answers: ["Atom", "Molecule", "Cell", "Organelle"], correct: "Cell" }
         ],
         medium: [
-            { question: "What is the speed of light in a vacuum?", answers: ["300,000 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"], correct: "300,000 km/s" },
+            { question: "Which conducting tissue in plants is responsible for multidirectional transport?", answers: ["Xylem", "Phloem", "Cambium", "Epidermis"], correct: "Phloem" },
             { question: "Where would you find humerus bone in human body?", answers: ["Knee", "Shoulder", "Hand", "Arm"], correct: "Arm" },
             { question: "What is the study of celestial objects and phenomena called?", answers: ["Geology", "Biology", "Astronomy", "Ecology"], correct: "Astronomy" },
-            { question: "Which element has atomic number 5?", answers: ["Helium", "Nitrogen", "Boron", "Neon"], correct: "Boron" },
-            { question: "Which is the largest organ in human body?", answers: ["Tongue", "Liver", "Skin", "Heart"], correct: "Skin" }
+            { question: "Which part of the human body produces insulin?", answers: ["Liver", "Pancreas", "Stomach", "Kidneys"], correct: "Pancreas" },
+            { question: "What is the hardest natural substance on Earth?", answers: ["Iron", "Gold", "Diamond", "Granite"], correct: "Diamond" }
         ],
         hard: [
             { question: "What is the value of absolute zero in Celsius?", answers: ["-273.15 °C", "0 °C", "-100 °C", "273.15 °C"], correct: "-273.15 °C" },
-            { question: "What is the name of the process by which plants make their own food?", answers: ["Respiration", "Transpiration", "Photosynthesis", "Pollination"], correct: "Photosynthesis" },
+            { question: "What term is used to refer to the genetic makeup of an individual organism?", answers: ["Phenotype", "Genotype", "Allele", "Chromosome"], correct: "Genotype" },
             { question: "What is the most abundant gas in Earth's atmosphere?", answers: ["Oxygen", "Carbon Dioxide", "Argon", "Nitrogen"], correct: "Nitrogen" },
             { question: "Which Nobel Prize-winning physicist is known for the theory of relativity?", answers: ["Isaac Newton", "Niels Bohr", "Albert Einstein", "Marie Curie"], correct: "Albert Einstein" },
             { question: "What is the scientific name for the process of cell division in which a cell divides into two identical daughter cells?", answers: ["Meiosis", "Mitosis", "Cytokinesis", "Fusion"], correct: "Mitosis" }
@@ -66,35 +66,51 @@ const quizData = {
         ],
         medium: [
             { question: "What is the name of the wizard played by Ian McKellen in 'The Lord of the Rings'?", answers: ["Gandalf", "Saruman", "Dumbledore", "Merlin"], correct: "Gandalf" },
-            { question: "Which movie is famous for the line, 'I'm going to make him an offer he can't refuse'?", answers: ["Goodfellas", "The Godfather", "Scarface", "The Untouchables"], correct: "The Godfather" }
+            { question: "Which movie is famous for the line, 'I'm going to make him an offer he can't refuse'?", answers: ["Goodfellas", "The Godfather", "Scarface", "The Untouchables"], correct: "The Godfather" },
+            { question: "Which Disney princess is the only one shown to become a mother?", answers: ["Cinderella", "Ariel", "Belle", "Snow White"], correct: "Ariel"}
         ],
         hard: [
             { question: "The movie 'Forrest Gump' is set in which country?", answers: ["United Kingdom", "United States", "France", "Germany"], correct: "United States" },
-            { question: "What is the name of the spaceship in 'Alien'?", answers: ["The Nostromo", "The Sulaco", "The Serenity", "The Event Horizon"], correct: "The Nostromo" }
+            { question: "What is the name of the spaceship in 'Alien'?", answers: ["The Nostromo", "The Sulaco", "The Serenity", "The Event Horizon"], correct: "The Nostromo" },
+            { question: "Who was the first Indian to win an Academy Award for her work on the film Gandhi?",answers: ["Sridevi", "A.R. Rahman", "Bhanu Athaiya", "Satyajit Ray"], correct: "Bhanu Athaiya"}
         ]
     },
     math: {
         easy: [
             { question: "What is the value of pi to two decimal places?", answers: ["3.12", "3.14", "3.16", "3.18"], correct: "3.14" },
-            { question: "What is the square root of 81?", answers: ["8", "9", "10", "7"], correct: "9" }
+            { question: "What is the square root of 81?", answers: ["8", "9", "10", "7"], correct: "9" },
+            { question: "What is the value of 5 x 7?", answers: ["30", "35", "40", "45"], correct: "35"},
+            { question: "How many sides does a triangle have?", answers: ["2", "3", "4", "5"], correct: "3"},
+            { question: "Which number is a prime number?", answers: ["6", "8", "9", "7"], correct: "7"}
         ],
         medium: [
             { question: "What is 7 multiplied by 8?", answers: ["49", "56", "64", "72"], correct: "56" },
-            { question: "What is the next number in the Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8...?", answers: ["11", "12", "13", "14"], correct: "13" }
+            { question: "What is the next number in the Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8...?", answers: ["11", "12", "13", "14"], correct: "13" },
+            { question: "If two angles of a triangle are 45° and 75°, what is the measure of the third angle?", answers: ["60 degrees", "70 degrees", "80 degrees", "90 degrees"], correct: "60 degrees"},
+            { question: "What is the common difference of the arithmetic progression 5, 9, 13, 17...?", answers: ["3", "4", "5", "6"], correct: "4"},
+            { question: "If a square has an area of 64 cm², what is the length of its side?", answers: ["6 cm", "7 cm", "8 cm", "10 cm"], correct: "8 cm"}
         ],
         hard: [
             { question: "What is the sum of angles in a triangle?", answers: ["90 degrees", "180 degrees", "270 degrees", "360 degrees"], correct: "180 degrees" },
-            { question: "What is the value of 'x' if 3x + 5 = 20?", answers: ["5", "6", "4", "7"], correct: "5" }
+            { question: "What is the value of 'x' if 3x + 5 = 20?", answers: ["5", "6", "4", "7"], correct: "5" },
+            { question: "If the discriminant of a quadratic equation is negative, then the roots are:", answers: ["Real and unequal", "Real and equal", "Complex", "Rational"], correct: "Complex"},
+            { question: "The sum of a rational number and an irrational number is always:", answers: ["Rational", "Irrational", "Zero", "One"], correct: "Irrational"}
         ]
     },
    geography: {
         easy: [
             { question: "What is the capital of France?", answers: ["London", "Berlin", "Paris", "Rome"], correct: "Paris" },
-            { question: "Which is the longest river in the world?", answers: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"], correct: "Nile River" }
+            { question: "Which is the longest river in the world?", answers: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"], correct: "Nile River" },
+            { question: "What is the capital of Canada?", answers: ["Toronto", "Vancouver", "Ottawa", "Montreal"], correct: "Ottawa"},
+            { question: "The Thar Desert is located in which continent?", answers: ["Africa","Australia", "Asia", "South America"], correct:"Asia"},
+            { question: "Which mountain range is known for having the world's highest peak, Mount Everest?", answers: ["Alps", "Andes", "Rockies", "Himalayas"], correct: "Himalayas"}
         ],
         medium: [
             { question: "Which continent is the largest by land area?", answers: ["Africa", "North America", "Asia", "Europe"], correct: "Asia" },
-            { question: "What is the highest mountain in the world?", answers: ["Mount Kilimanjaro", "Mount Everest", "Mount Denali", "K2"], correct: "Mount Everest" }
+            { question: "What is the highest mountain in the world?", answers: ["Mount Kilimanjaro", "Mount Everest", "Mount Denali", "K2"], correct: "Mount Everest" },
+            { question: "Which Indian state has the longest coastline?", answers:["Kerela", "Gujarat","Goa", "Tamil Nadu"], correct: "Gujarat"},
+            { question: "In which country is the Brahmaputra River known as the Jamuna?", answers: ["India", "China","Nepal", "Bangladesh"], correct:"Bangladesh"},
+            { question: " Which type of rock is known as a primary rock and is formed from molten material?", answers:["Sedimentary rock", "Metamorphic rock", "Igneous rock", "Fossil rock"}
         ],
         hard: [
             { question: "Which country is known as the Land of the Rising Sun?", answers: ["China", "Thailand", "Japan", "South Korea"], correct: "Japan" },
@@ -104,29 +120,35 @@ const quizData = {
     english: {
         easy: [
             { question: "Which of these is a synonym for 'happy'?", answers: ["Miserable", "Joyful", "Angry", "Sad"], correct: "Joyful" },
-            { question: "What is the past tense of 'run'?", answers: ["running", "ran", "runs", "runned"], correct: "ran" }
+            { question: "What is the past tense of 'run'?", answers: ["running", "ran", "runs", "runned"], correct: "ran" },
+            { question: "People ______________ walk on grass.", answers: [ "couldn't","needn't", "mustn't", "may not"], correct: "mustn't"}
         ],
         medium: [
             { question: "A group of lions is called a...", answers: ["flock", "pride", "pack", "school"], correct: "pride" },
-            { question: "Which of these is an adverb?", answers: ["beautiful", "quickly", "car", "swim"], correct: "quickly" }
+            { question: "Which of these is an adverb?", answers: ["beautiful", "quickly", "car", "swim"], correct: "quickly" },
+            { question: "They ______________ her and trusted her for years", answers: ["know", "had known", "knew", "known"], correct: "knew"}
         ],
         hard: [
             { question: "What is the plural of 'child'?", answers: ["childs", "children", "childen", "childrens"], correct: "children" },
-            { question: "In the sentence 'The quick brown fox jumps over the lazy dog,' which word is the verb?", answers: ["quick", "fox", "jumps", "lazy"], correct: "jumps" }
+            { question: "In the sentence 'The quick brown fox jumps over the lazy dog,' which word is the verb?", answers: ["quick", "fox", "jumps", "lazy"], correct: "jumps" },
+            { question: "Every morning she ______________ up early and gets ready for work.", answers: ["is waking", "has woken", "had woken", "wakes"], correct:"wakes"}
         ]
     },
     logical_reasoning: {
         easy: [
             { question: "If all A are B and all B are C, then are all A C?", answers: ["Yes", "No", "Maybe", "Cannot be determined"], correct: "Yes" },
-            { question: "Which number comes next in the series: 2, 4, 8, 16...?", answers: ["20", "24", "30", "32"], correct: "32" }
+            { question: "Which number comes next in the series: 2, 4, 8, 16...?", answers: ["20", "24", "30", "32"], correct: "32" },
+            { question: "Look at this series: 2, 4, 6, 8, ... What number should come next?", answers: ["9", "10", "12", "11"], correct:"10"}
         ],
         medium: [
             { question: "Find the odd one out: Car, Bus, Train, Helicopter.", answers: ["Car", "Bus", "Train", "Helicopter"], correct: "Helicopter" },
-            { question: "If a dog is to a kennel, then a bird is to a...?", answers: ["nest", "cage", "kennel", "den"], correct: "nest" }
+            { question: "If a dog is to a kennel, then a bird is to a...?", answers: ["nest", "cage", "kennel", "den"], correct: "nest" },
+            { question: "What is the next letter in the series: A, C, E, G, ___?", answers: ["H", "I", "J","F"], correct:"I"}
         ],
         hard: [
             { question: "If you rearrange the letters 'CIFAICP', you would have the name of a(n)...", answers: ["animal", "country", "city", "ocean"], correct: "ocean" },
-            { question: "A B C D E F G. What letter is two letters to the right of the letter that is immediately to the left of the letter that is three letters to the right of the letter C?", answers: ["D", "E", "F", "G"], correct: "F" }
+            { question: "A B C D E F G. What letter is two letters to the right of the letter that is immediately to the left of the letter that is three letters to the right of the letter C?", answers: ["D", "E", "F", "G"], correct: "F" },
+            { question: "In a certain code, “CODE” is written as “DPEF”. How is “DEFENCE” written in that code?", answers: ["EFGFODF", "KWMCJFL", "GDEFENC", "DEFENCE"], correct: "EFGFODF"}
         ]
     }
 };
