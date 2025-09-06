@@ -9,12 +9,12 @@ body {
     width: 700px;
 }
 
-.category-button, .answer-button, #play-again-btn {
+.category-button, .answer-button, #play-again-btn, #leaderboard-btn, #save-score-btn, #back-to-menu-btn {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.category-button:hover, .answer-button:hover {
+.category-button:hover, .answer-button:hover, #play-again-btn:hover, #leaderboard-btn:hover, #save-score-btn:hover, #back-to-menu-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.2), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -49,4 +49,15 @@ body {
 
 @keyframes blinker {
     50% { opacity: 0.5; }
+}
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #374151;
+    border-radius: 0.5rem;
+}
+
+.leaderboard-item:nth-child(odd) {
+    background-color: #4b5563;
 }
