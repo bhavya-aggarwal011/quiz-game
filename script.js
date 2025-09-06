@@ -155,7 +155,11 @@ function showMessage(text) {
     messageText.textContent = text;
     messageBox.classList.remove('hidden');
 }
-
+function showDifficultyMenu(category) {
+    currentCategory = category;
+    mainMenu.classList.add('hidden');
+    difficultyMenu.classList.remove('hidden');
+}
 function startQuiz(difficulty) {
     currentDifficulty = difficulty;
     currentCategoryQuestions = quizData[currentCategory][currentDifficulty];
@@ -278,7 +282,7 @@ function checkAnswer(selectedButton, correctAnswer) {
     }, 1500); // 1-second delay
 }
 
-function updateScore() {
+function updateScore(animate=false) {
     scoreDisplay.textContent = `Score: ${score}`;
     if (animate) {
         scoreDisplay.classList.add('score-flash');
