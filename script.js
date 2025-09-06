@@ -5,16 +5,22 @@ let score = 0;
 let currentCategory= '';
 
 // UI element references
-//const mainMenu= document.getElementById('main-menu');
 const categoryScreen = document.getElementById('category-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
+const leaderboardScreen = document.getElementById('leaderboard-screen');
 const questionText = document.getElementById('question-text');
 const answerButtonsContainer = document.getElementById('answer-buttons');
 const scoreDisplay = document.getElementById('score-display');
 const questionCountDisplay = document.getElementById('question-count-display');
 const finalScoreDisplay = document.getElementById('final-score');
+const saveScoreSection = document.getElementById('save-score-section');
+const nameInput = document.getElementById('name-input');
+const saveScoreBtn = document.getElementById('save-score-btn');
 const playAgainBtn = document.getElementById('play-again-btn');
+const leaderboardBtn = document.getElementById('leaderboard-btn');
+const backToMenuBtn = document.getElementById('back-to-menu-btn');
+const leaderboardContent = document.getElementById('leaderboard-content');
 const messageBox = document.getElementById('message-box');
 const messageText = document.getElementById('message-text');
 const messageCloseBtn = document.getElementById('message-close-btn');
@@ -48,6 +54,21 @@ const quizData = {
             question: "What is the study of celestial objects and phenomena called?",
             answers: ["Geology", "Biology", "Astronomy", "Ecology"],
             correct: "Astronomy"
+        },
+        {
+            question: "Which element has atomic number 5?",
+            answers: ["Helium", "Nitrogen", "Boron", "Neon"],
+            correct: "Boron"
+        },
+        {
+            question: "What is the scientific term for the process of plants making their own food?",
+            answers: ["Photosynthesis", "Breathing", "Oxidation", ""],
+            correct: "Photosynthesis"
+        },
+        {
+            question: "Which is the largest organ in human body?",
+            answers: ["Tongue", "Liver", "Skin", "Heart"],
+            correct: "Skin"
         }
     ],
     movies: [
